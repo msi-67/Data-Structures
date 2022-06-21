@@ -101,6 +101,7 @@ void delete_by_key(int key)
     list* prev, *curr;
     int ind = hash_fn(key);
     curr = hash[ind];
+    prev = NULL;
     if(curr == NULL)
     {
         printf("Key not present.\n");
@@ -111,11 +112,17 @@ void delete_by_key(int key)
         prev = curr;
         curr = curr->next;    
     }
-    if(curr != NULL)
+    if(curr != NULL && prev != NULL)
     {
         prev->next = curr->next;
         printf("Deleting info %d at key %d.\n",curr->info.info, curr->info.key);
         free(curr); 
+    }
+    else if(prev == NULL && curr != NULL)
+    {
+        hash[ind] = curr->next;
+        printf("Deleting info %d at key %d.\n",curr->info.info, curr->info.key);
+        free(curr);
     }
     else
     {
